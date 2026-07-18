@@ -15,6 +15,17 @@
 ##############################################################################
 
 
+# Fallback: ensure tema and estilos exist (attempt to source parte_1.R if necessary)
+if (!exists("tema") || !exists("estilos")) {
+  if (file.exists("parte_1.R")) {
+    try(source("parte_1.R"), silent = TRUE)
+  }
+}
+# Default safe values if still missing
+if (!exists("tema"))    tema <- NULL
+if (!exists("estilos")) estilos <- tags$style(HTML(""))
+
+
 cat("Tema existe:", exists("tema"), "\n")
 cat("Estilos existe:", exists("estilos"), "\n")
 cat("===== CARGANDO UI =====\n")
@@ -46,6 +57,5 @@ cat("===== CARGANDO UI =====\n")
             uiOutput("recursos")),
           card_body(
             uiOutput("relaciones"))
-        
         ) ) 
     )
