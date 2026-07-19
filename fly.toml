@@ -3,16 +3,28 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "vademecumapp" primary_region = "ams"
+app = "vademecumapp"
+primary_region = "ams"
 
-[build] dockerfile = "Dockerfile"
+[build]
+  dockerfile = "Dockerfile"
 
-[[services]] internal_port = 3838 protocol = "tcp"
+[env]
+  PORT = "3838"
 
-[services.concurrency] type = "connections" soft_limit = 20 hard_limit = 25
+[[services]]
+  internal_port = 3838
+  protocol = "tcp"
 
-[[services.ports]] handlers = ["http"] port = 80
+  [services.concurrency]
+    type = "connections"
+    soft_limit = 20
+    hard_limit = 25
 
-[[services.ports]] handlers = ["tls", "http"] port = 443
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
 
-[env] PORT = "3838"
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
